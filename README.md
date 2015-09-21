@@ -31,7 +31,7 @@ icoords('m13')  // minor 13th -> [12, 20]
 icoords('m-2')  // downwards minor second -> [-1, -1]
 ```
 
-### `icoords(simpleInterval) -> [octaves, fifths]`
+### `icoords(simpleInterval) -> [steps, semitones]`
 
 Given a `string` with a "simple format" interval, it returns the corresponding
 coordinate vector of that interval.
