@@ -1,15 +1,17 @@
 # `interval-coords`
 
 This module makes it possible to convert music intervals in so-called "simple format",
-into a coordinate in the format `[octaves, fifth]`, which represents how many
-octaves and fifths you need to "jump" before arriving at the interval.
+into a coordinate in the format `[steps, semitones]`, which represents how many
+diatonic steps and semitones there are between two tones, respectively.
 
 For example `P1` means "perfect unison", and so the coordinate would be `[0, 0]`
 because there's no movement.
 
-Another example, `M3` means "major third" and the coordinate is `[-2, 4]`.
-This means that in order to travel a "major third" up, you first go 2
-octaves down, and then 4 fifths up
+Another example, `M3` means "major third" and the coordinate is `[2, 4]`.
+
+An augmented fourth, `A4`, is represented by `[3, 6]`, while a diminished fifth is
+`[4, 6]`. The second number is the same, which tells us that they have the same
+sounding pitch.
 
 This way of representing intervals and notes is a powerful one, and it lets us
 take advantage of numeric computations instead of string-parsing and long
@@ -21,12 +23,12 @@ if/else statements
 var icoords = require('interval-coords');
 
 icoords('P1')   // perfect unison -> [0, 0]
-icoords('M3')   // major third -> [-2, 4]
-icoords('P8')   // perfect octave -> [1, 0]
-icoords('m13')  // minor 13th -> [4, -4]
+icoords('M3')   // major third -> [2, 4]
+icoords('P8')   // perfect octave -> [7, 12]
+icoords('m13')  // minor 13th -> [12, 20]
 
 // You can also use "negative" intervals (going down)
-icoords('m-2')  // downwards minor second -> [-3, 5]
+icoords('m-2')  // downwards minor second -> [-1, -1]
 ```
 
 ### `icoords(simpleInterval) -> [octaves, fifths]`

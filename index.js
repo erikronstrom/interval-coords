@@ -1,20 +1,17 @@
 var pattern = /^(AA|A|P|M|m|d|dd)(-?\d+)$/;
 
-// The interval it takes to raise a note a semitone
-var sharp = [-4, 7];
-
 var pAlts = ['dd', 'd', 'P', 'A', 'AA'];
 var mAlts = ['dd', 'd', 'm', 'M', 'A', 'AA'];
 
 var baseIntervals = [
   [0, 0],
-  [3, -5],
-  [2, -3],
-  [1, -1],
-  [0, 1],
-  [3, -4],
-  [2, -2],
-  [1, 0]
+  [1, 1],
+  [2, 3],
+  [3, 5],
+  [4, 7],
+  [5, 8],
+  [6, 10],
+  [7, 12]
 ];
 
 module.exports = function(simple) {
@@ -31,7 +28,7 @@ module.exports = function(simple) {
   var octaves = (number - lower) / 7;
 
   var base = baseIntervals[lower - 1];
-  var alts = base[0] <= 1 ? pAlts : mAlts;
+  var alts = [0, 3, 4, 7].indexOf(base[0]) >= 0 ? pAlts : mAlts;
   var alt = alts.indexOf(quality) - 2;
 
   // this happens, if the alteration wasn't suitable for this type
@@ -39,9 +36,9 @@ module.exports = function(simple) {
   if (alt === -3) return null;
 
   return [
-    sign * (base[0] + octaves + sharp[0] * alt),
-    sign * (base[1] + sharp[1] * alt)
-  ];
+    sign * ((octaves * 7) + base[0]),
+    sign * ((octaves * 12) + base[1] + alt)
+    ];
 }
 
 // Copy to avoid overwriting internal base intervals
