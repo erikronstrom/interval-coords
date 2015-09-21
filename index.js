@@ -34,11 +34,23 @@ module.exports = function(simple) {
   // this happens, if the alteration wasn't suitable for this type
   // of interval, such as P2 or M5 (no "perfect second" or "major fifth")
   if (alt === -3) return null;
-
-  return [
-    sign * ((octaves * 7) + base[0]),
-    sign * ((octaves * 12) + base[1] + alt)
-    ];
+    
+  var steps = sign * ((octaves * 7) + base[0]);
+  var semitones = sign * ((octaves * 12) + base[1] + alt);
+  
+  // Below are some sanity checks that we leave commented out for now.
+  // The reason is that even though some intervals are not "possible"
+  // (e.g. diminished unison), they can still be of use inside calculations.
+  
+  // Diminished unisons doesn't make sense
+  //if (base[0] === 0 && alt < 0) return null;
+  
+  // Disallow different signs for steps and semitones
+  // E.g. dd2 is not a valid musical interval
+  // if (steps > 0 && semitones < 0) return null;
+  // if (steps < 0 && semitones > 0) return null;
+  
+  return [steps, semitones];
 }
 
 // Copy to avoid overwriting internal base intervals
